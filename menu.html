@@ -1570,5 +1570,128 @@ function setLang(lang, btn) {
   document.documentElement.lang = lang;
 }
 </script>
+  <!-- Google Analytics (SUBSTITUI PELO ID REAL DO CLIENTE) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXXXXXXX');
+</script>
+
+<script>
+/* ─────────────────────────────────────
+   SISTEMA INTELIGENTE SEM DB
+───────────────────────────────────── */
+
+// Capturar parâmetros da URL
+const params = new URLSearchParams(window.location.search);
+const mesa = params.get("mesa");
+const zona = params.get("zona");
+
+// Guardar localmente
+if (mesa && zona) {
+  localStorage.setItem("mesa", mesa);
+  localStorage.setItem("zona", zona);
+}
+
+// Mostrar mesa e zona discretamente
+if (mesa && zona) {
+  const infoBar = document.querySelector(".info-bar");
+  const mesaTag = document.createElement("span");
+  mesaTag.innerHTML = "🪑 Mesa " + mesa + " · " + (zona === "areia" ? "Zona Praia" : "Zona Interior");
+  infoBar.appendChild(mesaTag);
+}
+
+// Evento: Visualização do Menu
+if (typeof gtag !== "undefined" && mesa && zona) {
+  gtag('event', 'menu_view', {
+    mesa: mesa,
+    zona: zona,
+    idioma: document.documentElement.lang
+  });
+}
+
+/* ─────────────────────────────────────
+   TRACK CATEGORIAS
+───────────────────────────────────── */
+
+function showSection(id, btn) {
+  document.querySelectorAll(".menu-section").forEach(sec => {
+    sec.classList.remove("active");
+  });
+
+  document.getElementById("sec-" + id).classList.add("active");
+
+  document.querySelectorAll(".cat-btn").forEach(b => {
+    b.classList.remove("active");
+  });
+
+  btn.classList.add("active");
+
+  if (typeof gtag !== "undefined") {
+    gtag('event', 'section_view', {
+      section: id,
+      mesa: mesa,
+      zona: zona
+    });
+  }
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+/* ─────────────────────────────────────
+   TRACK CLIQUE EM PRATO
+───────────────────────────────────── */
+
+document.querySelectorAll(".item-row").forEach(item => {
+  item.addEventListener("click", function() {
+    const dish = this.querySelector(".item-name")?.innerText;
+
+    if (typeof gtag !== "undefined") {
+      gtag('event', 'dish_click', {
+        prato: dish,
+        mesa: mesa,
+        zona: zona
+      });
+    }
+  });
+});
+
+/* ─────────────────────────────────────
+   BOTÃO DE AVALIAÇÃO INTELIGENTE
+───────────────────────────────────── */
+
+// Criar botão flutuante de avaliação
+const reviewBtn = document.createElement("a");
+reviewBtn.innerText = "⭐ Avaliar no Google";
+reviewBtn.href = "https://maps.app.goo.gl/GkJfPoZ2TzRkoGiHA";
+reviewBtn.target = "_blank";
+reviewBtn.style.position = "fixed";
+reviewBtn.style.right = "16px";
+reviewBtn.style.bottom = "90px";
+reviewBtn.style.background = "#c9a84c";
+reviewBtn.style.color = "#0d2b45";
+reviewBtn.style.padding = "10px 14px";
+reviewBtn.style.fontSize = "11px";
+reviewBtn.style.letterSpacing = "0.15em";
+reviewBtn.style.textTransform = "uppercase";
+reviewBtn.style.borderRadius = "2px";
+reviewBtn.style.zIndex = "999";
+reviewBtn.style.textDecoration = "none";
+reviewBtn.style.fontWeight = "500";
+
+reviewBtn.addEventListener("click", function() {
+  if (typeof gtag !== "undefined") {
+    gtag('event', 'go_review', {
+      mesa: mesa,
+      zona: zona
+    });
+  }
+});
+
+document.body.appendChild(reviewBtn);
+
+</script>
 </body>
 </html>
