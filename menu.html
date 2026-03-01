@@ -1,0 +1,1559 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Menu – Duche Bar · Cascais</title>
+<meta name="description" content="Menu do Duche Bar na Praia da Duquesa, Cascais. Frutos do mar frescos, peixe grelhado, paelhas e muito mais.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --sand: #f4efe3;
+  --sand-light: #faf7f1;
+  --ocean: #0d2b45;
+  --ocean-mid: #1a4a6e;
+  --ocean-light: #2a6fa8;
+  --gold: #c9a84c;
+  --gold-pale: rgba(201,168,76,0.12);
+  --text: #0a1e30;
+  --text-mid: #4a6070;
+  --text-light: #8a9aa8;
+  --white: #ffffff;
+  --badge-chef: #c9a84c;
+  --badge-pop: #2a6fa8;
+  --badge-prem: #8b4a2a;
+  --card-border: rgba(13,43,69,0.07);
+  --transition: 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; scroll-behavior:smooth; }
+
+body {
+  font-family:'Jost', sans-serif;
+  background: var(--sand-light);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ── HEADER ── */
+.menu-header {
+  background: var(--ocean);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 780px;
+  padding: 14px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+
+.header-logo img {
+  height: 28px;
+  filter: brightness(0) invert(1) opacity(0.9);
+}
+
+.header-meta {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255,255,255,0.4);
+  font-weight: 300;
+  text-align: right;
+}
+
+.lang-switch {
+  display: flex;
+  gap: 0;
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.lang-switch button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.45);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.15em;
+  cursor: pointer;
+  padding: 5px 10px;
+  transition: all 0.25s;
+}
+
+.lang-switch button.active {
+  background: var(--gold);
+  color: var(--ocean);
+}
+
+/* ── CATEGORY NAV ── */
+.cat-nav-wrap {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 10px 0 12px;
+  max-width: 780px;
+}
+
+.cat-nav-wrap::-webkit-scrollbar { display: none; }
+
+.cat-nav {
+  display: flex;
+  gap: 6px;
+  padding: 0 0 2px;
+  white-space: nowrap;
+  width: max-content;
+}
+
+.cat-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: rgba(255,255,255,0.5);
+  font-family: 'Jost', sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  padding: 7px 14px;
+  cursor: pointer;
+  border-radius: 1px;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.cat-btn:hover { color: rgba(255,255,255,0.85); border-color: rgba(255,255,255,0.25); }
+.cat-btn.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--ocean);
+  font-weight: 500;
+}
+
+/* ── HERO BAND ── */
+.menu-hero {
+  width: 100%;
+  background: var(--ocean);
+  padding: 28px 20px 32px;
+  text-align: center;
+}
+
+.menu-hero-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(28px, 5vw, 44px);
+  font-weight: 300;
+  color: white;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+}
+
+.menu-hero-sub {
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  text-transform: uppercase;
+  font-weight: 300;
+  margin-top: 8px;
+}
+
+/* ── MAIN CONTENT ── */
+.menu-body {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 0 16px 60px;
+}
+
+/* ── SECTION ── */
+.menu-section { display: none; }
+.menu-section.active { display: block; }
+
+.section-intro {
+  padding: 36px 0 24px;
+  border-bottom: 1px solid var(--card-border);
+  margin-bottom: 0;
+}
+
+.section-label-top {
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+  margin-bottom: 6px;
+}
+
+.section-heading {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--text);
+  line-height: 1.15;
+}
+
+.section-desc {
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.7;
+  margin-top: 8px;
+  max-width: 480px;
+}
+
+/* ── ANCHOR DISHES ── */
+.anchors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin: 24px 0 8px;
+}
+
+.anchor-card {
+  background: var(--ocean);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.anchor-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(13,43,69,0.2);
+}
+
+.anchor-card-img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  opacity: 0.85;
+  transition: opacity 0.4s, transform 0.6s;
+}
+
+.anchor-card:hover .anchor-card-img {
+  opacity: 1;
+  transform: scale(1.04);
+}
+
+.anchor-card-body {
+  padding: 14px 16px 16px;
+  background: linear-gradient(to bottom, rgba(13,43,69,0) 0%, rgba(13,43,69,0.95) 100%);
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+}
+
+.anchor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 8px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 1px;
+  margin-bottom: 8px;
+}
+
+.badge-chef { background: var(--badge-chef); color: var(--ocean); }
+.badge-pop  { background: var(--badge-pop);  color: white; }
+.badge-prem { background: var(--badge-prem); color: white; }
+
+.anchor-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: white;
+  line-height: 1.2;
+}
+
+.anchor-desc {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.55;
+  margin-top: 5px;
+}
+
+/* ── REGULAR ITEMS ── */
+.items-list {
+  margin: 4px 0;
+}
+
+.item-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--card-border);
+  gap: 12px;
+  transition: background 0.2s;
+  position: relative;
+}
+
+.item-row:last-child { border-bottom: none; }
+
+.item-row.has-badge {
+  padding-left: 0;
+}
+
+.item-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.item-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.item-desc {
+  font-size: 11.5px;
+  font-weight: 300;
+  color: var(--text-mid);
+  line-height: 1.6;
+  margin-top: 3px;
+}
+
+.item-badges {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+  flex-wrap: wrap;
+}
+
+.item-badge {
+  font-size: 7.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 1px;
+}
+
+.item-badge.chef { background: var(--gold-pale); color: #8a6010; border: 1px solid rgba(201,168,76,0.25); }
+.item-badge.pop  { background: rgba(42,111,168,0.08); color: #1a4a6e; border: 1px solid rgba(42,111,168,0.2); }
+.item-badge.prem { background: rgba(139,74,42,0.07); color: #7a3a1a; border: 1px solid rgba(139,74,42,0.18); }
+.item-badge.veg  { background: rgba(40,120,60,0.07); color: #256030; border: 1px solid rgba(40,120,60,0.2); }
+
+.item-suggest {
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--ocean-light);
+  margin-top: 5px;
+  font-style: italic;
+}
+
+/* ── SUBSECTION HEADING ── */
+.subsection-title {
+  font-size: 9px;
+  letter-spacing: 0.45em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 400;
+  padding: 24px 0 6px;
+  border-bottom: 1px solid rgba(201,168,76,0.2);
+  margin-bottom: 2px;
+}
+
+/* ── FEATURE IMAGE STRIP ── */
+.feature-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 20px 0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.feature-strip img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── CROSS-SELL STRIP ── */
+.crosssell {
+  background: var(--ocean);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin: 20px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.crosssell-icon {
+  font-size: 18px;
+  opacity: 0.8;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.crosssell-text {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.6;
+}
+
+.crosssell-text strong {
+  color: var(--gold);
+  font-weight: 400;
+}
+
+/* ── SOBREMESAS SPECIAL ── */
+.dessert-hero {
+  margin: 20px 0;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.dessert-hero img {
+  width: 100%;
+  aspect-ratio: 16/7;
+  object-fit: cover;
+  display: block;
+}
+
+.dessert-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(13,43,69,0.75) 30%, rgba(13,43,69,0.1) 100%);
+  display: flex;
+  align-items: center;
+  padding: 24px;
+}
+
+.dessert-hero-copy .label {
+  font-size: 9px;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 300;
+  margin-bottom: 8px;
+}
+
+.dessert-hero-copy h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 26px;
+  font-weight: 300;
+  color: white;
+  line-height: 1.15;
+}
+
+.dessert-hero-copy .sub {
+  font-size: 11px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* ── STICKY CTA ── */
+.sticky-cta {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--ocean);
+  padding: 12px 20px;
+  display: flex;
+  gap: 10px;
+  z-index: 90;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.cta-reserve {
+  flex: 1;
+  background: var(--gold);
+  color: var(--ocean);
+  border: none;
+  padding: 12px;
+  font-family: 'Jost', sans-serif;
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-decoration: none;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cta-reserve:hover { background: #e0bc5c; }
+
+.cta-call {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.15);
+  color: white;
+  padding: 12px 16px;
+  font-family: 'Jost', sans-serif;
+  font-size: 18px;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: background 0.25s;
+}
+
+.cta-call:hover { background: rgba(255,255,255,0.12); }
+
+/* ── INFO BAR ── */
+.info-bar {
+  background: var(--sand);
+  border-top: 1px solid var(--card-border);
+  border-bottom: 1px solid var(--card-border);
+  padding: 12px 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 10px;
+  font-weight: 300;
+  color: var(--text-mid);
+  letter-spacing: 0.05em;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.info-bar span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── LANGUAGE VISIBILITY ── */
+.pt { display: block; }
+.en { display: none; }
+.pt-inline { display: inline; }
+.en-inline { display: none; }
+body.lang-en .pt { display: none; }
+body.lang-en .en { display: block; }
+body.lang-en .pt-inline { display: none; }
+body.lang-en .en-inline { display: inline; }
+
+/* ── DISCRETE ITEMS ── */
+.item-row.discrete .item-name {
+  color: var(--text-mid);
+  font-size: 15px;
+}
+
+/* ── HARMONIZATION TAG ── */
+.harmonia {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  color: var(--text-light);
+  font-weight: 300;
+  font-style: italic;
+  margin-top: 4px;
+}
+
+/* ── PADDING BOTTOM ── */
+.pad-bottom { height: 80px; }
+
+/* ── TICKET TEASER ── */
+.ticket-tip {
+  background: linear-gradient(135deg, var(--ocean) 0%, var(--ocean-mid) 100%);
+  border-radius: 2px;
+  padding: 16px 20px;
+  margin: 16px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.ticket-tip-text {
+  font-size: 12px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.72);
+  line-height: 1.6;
+}
+
+.ticket-tip-text strong {
+  color: white;
+  font-weight: 400;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 480px) {
+  .anchors-grid { grid-template-columns: 1fr 1fr; }
+  .anchor-name { font-size: 15px; }
+  .anchor-desc { display: none; }
+}
+
+@media (max-width: 360px) {
+  .anchors-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── HEADER ─── -->
+<header class="menu-header">
+  <div class="header-top">
+    <a href="index.html" class="header-logo">
+      <img src="https://www.duchebar.com/img/logo-400x130.webp" alt="Duche Bar">
+    </a>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="header-meta">
+        <span class="pt-inline">Todos os dias · 09h–19h</span>
+        <span class="en-inline">Daily · 9am–7pm</span>
+      </div>
+      <div class="lang-switch">
+        <button class="active" onclick="setLang('pt',this)">PT</button>
+        <button onclick="setLang('en',this)">EN</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Nav -->
+  <div class="cat-nav-wrap">
+    <div class="cat-nav">
+      <button class="cat-btn active" onclick="showSection('destaques',this)">
+        <span class="pt-inline">✦ Destaques</span>
+        <span class="en-inline">✦ Highlights</span>
+      </button>
+      <button class="cat-btn" onclick="showSection('peixe',this)">
+        <span class="pt-inline">Peixe & Mar</span>
+        <span class="en-inline">Fish & Sea</span>
+      </button>
+      <button class="cat-btn" onclick="showSection('paelhas',this)">
+        <span class="pt-inline">Paelhas</span>
+        <span class="en-inline">Paellas</span>
+      </button>
+      <button class="cat-btn" onclick="showSection('carne',this)">
+        <span class="pt-inline">Carne</span>
+        <span class="en-inline">Meat</span>
+      </button>
+      <button class="cat-btn" onclick="showSection('hamburguer',this)">
+        <span class="pt-inline">Hambúrguers</span>
+        <span class="en-inline">Burgers</span>
+      </button>
+      <button class="cat-btn" onclick="showSection('ligeiros',this)">
+        <span class="pt-inline">Ligeiros</span>
+        <span class="en-inline">Light Bites</span>
+      </button>
+      <button class="cat-btn" onclick="showSection('sobremesas',this)">
+        <span class="pt-inline">Sobremesas</span>
+        <span class="en-inline">Desserts</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ─── HERO BAND ─── -->
+<div class="menu-hero">
+  <div class="menu-hero-title pt">
+    Sabores do Atlântico.
+  </div>
+  <div class="menu-hero-title en">
+    Tastes of the Atlantic.
+  </div>
+  <div class="menu-hero-sub">Praia da Duquesa · Cascais</div>
+</div>
+
+<!-- ─── INFO BAR ─── -->
+<div class="info-bar">
+  <span>📍 <span class="pt-inline">Praia da Duquesa, Cascais</span><span class="en-inline">Duquesa Beach, Cascais</span></span>
+  <span>🕘 09:00 – 19:00</span>
+  <span>📞 +351 214 831 379</span>
+</div>
+
+<!-- ─── MAIN MENU BODY ─── -->
+<div class="menu-body">
+
+  <!-- ════════════════════════════════
+       SECTION: DESTAQUES
+  ════════════════════════════════ -->
+  <div id="sec-destaques" class="menu-section active">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Seleção do Chef</span>
+        <span class="en-inline">Chef's Selection</span>
+      </div>
+      <h2 class="section-heading pt">Os nossos tesouros do mar.</h2>
+      <h2 class="section-heading en">Our treasures of the sea.</h2>
+      <p class="section-desc pt">Pratos que definem quem somos — preparados com o melhor que o Atlântico nos oferece cada dia.</p>
+      <p class="section-desc en">Dishes that define who we are — prepared with the finest the Atlantic offers each day.</p>
+    </div>
+
+    <!-- ANCHOR CARDS — Pratos âncora visuais -->
+    <div class="anchors-grid">
+      <div class="anchor-card">
+        <img class="anchor-card-img" src="https://www.duchebar.com/img/DUCHEBAR-4.webp" alt="Arroz de Marisco">
+        <div class="anchor-card-body">
+          <div class="anchor-badge badge-chef">✦ Chef's Pick</div>
+          <div class="anchor-name">Arroz de Marisco</div>
+          <div class="anchor-desc pt">Caldoso e generoso. Marisco do dia, tomate e azeite.</div>
+          <div class="anchor-desc en">Rich and generous. Daily seafood, tomato and olive oil.</div>
+        </div>
+      </div>
+      <div class="anchor-card">
+        <img class="anchor-card-img" src="https://www.duchebar.com/img/DUCHEBAR-10.webp" alt="Polvo à Lagareiro">
+        <div class="anchor-card-body">
+          <div class="anchor-badge badge-pop">♥ Most Popular</div>
+          <div class="anchor-name">Polvo à Lagareiro</div>
+          <div class="anchor-desc pt">Polvo tenro, batata a murro, azeite e alho.</div>
+          <div class="anchor-desc en">Tender octopus, crushed potato, olive oil and garlic.</div>
+        </div>
+      </div>
+      <div class="anchor-card" style="grid-column: span 2;" id="anchor-grelhada">
+        <img class="anchor-card-img" src="https://www.duchebar.com/img/DUCHEBAR-7.webp" alt="Grelhada Mista de Peixe" style="aspect-ratio:21/9;">
+        <div class="anchor-card-body">
+          <div class="anchor-badge badge-prem">◆ Premium</div>
+          <div class="anchor-name">Grelhada Mista de Peixe</div>
+          <div class="anchor-desc pt">Uma sinfonia atlântica. A escolha do dia, grelhada na perfeição.</div>
+          <div class="anchor-desc en">An Atlantic symphony. The catch of the day, grilled to perfection.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cross-sell suggestion -->
+    <div class="crosssell">
+      <div class="crosssell-icon">🥂</div>
+      <div class="crosssell-text">
+        <span class="pt">
+          <strong>Harmonização sugerida:</strong> Os nossos pratos de peixe combinam na perfeição com vinho verde branco fresco ou um rosé atlântico. Peça ao nosso staff.
+        </span>
+        <span class="en">
+          <strong>Perfect pairing:</strong> Our fish dishes pair beautifully with a crisp white Vinho Verde or an Atlantic rosé. Ask our staff.
+        </span>
+      </div>
+    </div>
+
+    <!-- Full highlights list -->
+    <div class="subsection-title pt">Todas as Especialidades</div>
+    <div class="subsection-title en">All Specialties</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Arroz de Marisco</div>
+          <div class="item-desc pt">Arroz caldoso com camarão, mexilhão e berbigão frescos. Servido na caçarola.</div>
+          <div class="item-desc en">Brothy rice with fresh shrimp, mussels and clams. Served in the pot.</div>
+          <div class="item-badges">
+            <span class="item-badge chef">✦ Chef's Pick</span>
+            <span class="item-badge pop">♥ Popular</span>
+          </div>
+          <div class="item-suggest pt">→ Peça uma Paelha de Marisco para partilhar</div>
+          <div class="item-suggest en">→ Try the Paella de Marisco to share</div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Polvo à Lagareiro</div>
+          <div class="item-desc pt">Polvo assado em forno, batata a murro, azeite virgem e alho confit.</div>
+          <div class="item-desc en">Oven-roasted octopus, smashed potato, virgin olive oil and confit garlic.</div>
+          <div class="item-badges">
+            <span class="item-badge pop">♥ Most Popular</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Espetada Lulas c/ Gambas</div>
+          <div class="item-desc pt">Anéis de lula e gambas salteados em espetada. Suave e aromático.</div>
+          <div class="item-desc en">Squid rings and prawns sautéed on a skewer. Delicate and aromatic.</div>
+          <div class="item-badges">
+            <span class="item-badge chef">✦ Chef's Pick</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Grelhada Mista de Peixe</div>
+          <div class="item-desc pt">Seleção do dia diretamente da lota. Grelhado no momento, servido com guarnição.</div>
+          <div class="item-desc en">Daily selection straight from the market. Grilled to order, served with sides.</div>
+          <div class="item-badges">
+            <span class="item-badge prem">◆ Premium</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Feijoada de Marisco</div>
+          <div class="item-desc pt">Feijão encorpado com mexilhão, camarão e linguiça. Reconforto atlântico.</div>
+          <div class="item-desc en">Rich bean stew with mussels, shrimp and chouriço. Atlantic comfort food.</div>
+          <div class="item-badges">
+            <span class="item-badge pop">♥ Popular</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Lulas à Casa</div>
+          <div class="item-desc pt">A receita da casa. Lulas temperadas e preparadas à moda Duche Bar.</div>
+          <div class="item-desc en">The house recipe. Squid seasoned and prepared the Duche Bar way.</div>
+          <div class="item-badges">
+            <span class="item-badge chef">✦ Signature</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bife à Portuguesa</div>
+          <div class="item-desc pt">Bife de novilho em molho de manteiga com ovo e batata frita. Clássico reinventado.</div>
+          <div class="item-desc en">Beef steak in butter sauce with fried egg and fries. A Portuguese classic.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-tip">
+      <div class="ticket-tip-text">
+        <span class="pt">💡 <strong>Sugestão:</strong> Adicione uma entrada de pão com manteiga de anchovas ou uma salada César para completar a experiência.</span>
+        <span class="en">💡 <strong>Suggestion:</strong> Start with our anchovy butter bread or a César salad to complete the experience.</span>
+      </div>
+    </div>
+
+  </div><!-- /sec-destaques -->
+
+
+  <!-- ════════════════════════════════
+       SECTION: PEIXE & MAR
+  ════════════════════════════════ -->
+  <div id="sec-peixe" class="menu-section">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Do Atlântico para a mesa</span>
+        <span class="en-inline">From the Atlantic to your table</span>
+      </div>
+      <h2 class="section-heading pt">Peixe & Mar.</h2>
+      <h2 class="section-heading en">Fish & Sea.</h2>
+      <p class="section-desc pt">Peixe fresco da costa, grelhado no momento. Sem segredos — apenas o produto, o fogo e o tempo certo.</p>
+      <p class="section-desc en">Fresh coastal fish, grilled to order. No secrets — just the product, the fire and the right timing.</p>
+    </div>
+
+    <!-- PREMIUM ANCHORS in this section -->
+    <div class="anchors-grid" style="margin-top:20px;">
+      <div class="anchor-card">
+        <img class="anchor-card-img" src="https://www.duchebar.com/img/DUCHEBAR-4.webp" alt="Bacalhau">
+        <div class="anchor-card-body">
+          <div class="anchor-badge badge-chef">✦ Chef</div>
+          <div class="anchor-name">Bacalhau à Lagareiro</div>
+          <div class="anchor-desc pt">Postas generosas, batata a murro, azeite e alho.</div>
+          <div class="anchor-desc en">Generous portions, smashed potato, olive oil and garlic.</div>
+        </div>
+      </div>
+      <div class="anchor-card">
+        <img class="anchor-card-img" src="https://www.duchebar.com/img/DUCHEBAR-10.webp" alt="Polvo">
+        <div class="anchor-card-body">
+          <div class="anchor-badge badge-pop">♥ Popular</div>
+          <div class="anchor-name">Polvo à Lagareiro</div>
+          <div class="anchor-desc pt">O favorito da casa — tenro e perfumado.</div>
+          <div class="anchor-desc en">The house favourite — tender and fragrant.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Peixe Grelhado</div>
+    <div class="subsection-title en">Grilled Fish</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Sardinhas na Brasa (5 uni)</div>
+          <div class="item-desc pt">Sardinha atlântica, brasa lenta, sal grosso e limão.</div>
+          <div class="item-desc en">Atlantic sardine, slow embers, rock salt and lemon.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Iconic</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Dourada Grelhada</div>
+          <div class="item-desc pt">Dourada inteira do dia, grelhada e servida com batata e legumes.</div>
+          <div class="item-desc en">Whole sea bream of the day, grilled, served with potato and vegetables.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Chef's Choice</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Robalo Grelhado</div>
+          <div class="item-desc pt">Peixe nobre de carne firme. Grelhado na perfeição.</div>
+          <div class="item-desc en">Noble firm-fleshed fish. Grilled to perfection.</div>
+          <div class="item-badges"><span class="item-badge prem">◆ Premium</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Salmão Grelhado</div>
+          <div class="item-desc pt">Posta de salmão, grelhada e servida com arroz ou batata frita.</div>
+          <div class="item-desc en">Salmon fillet, grilled and served with rice or fries.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Peixe Espada Grelhado</div>
+          <div class="item-desc pt">Espada atlântica, textura suave e sabor delicado.</div>
+          <div class="item-desc en">Atlantic scabbard fish, soft texture and delicate flavour.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Carapaus na Brasa</div>
+          <div class="item-desc pt">Carapau fresco, brasa lenta. Sabor simples e autêntico.</div>
+          <div class="item-desc en">Fresh horse mackerel on the embers. Simple and authentic.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Linguado Grelhado (kg)</div>
+          <div class="item-desc pt">Vendido ao quilo. Linguado inteiro, frescura garantida do dia.</div>
+          <div class="item-desc en">Sold by the kilo. Whole sole, guaranteed freshness of the day.</div>
+          <div class="item-badges"><span class="item-badge prem">◆ Premium</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Bacalhau & Tradição</div>
+    <div class="subsection-title en">Codfish & Tradition</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bacalhau à Lagareiro</div>
+          <div class="item-desc pt">Postas de bacalhau assadas, batata a murro, azeite e alho confit.</div>
+          <div class="item-desc en">Baked cod portions, smashed potato, olive oil and confit garlic.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Chef's Pick</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bacalhau à Brás</div>
+          <div class="item-desc pt">Bacalhau desfiado com ovos mexidos, batata palha e salsa. Um clássico eterno.</div>
+          <div class="item-desc en">Shredded cod with scrambled eggs, straw potato and parsley. A timeless classic.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bacalhau à Minhota</div>
+          <div class="item-desc pt">Com pimentos assados, cebola e azeite. Receita do Norte de Portugal.</div>
+          <div class="item-desc en">With roasted peppers, onion and olive oil. A recipe from Northern Portugal.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Lulas & Chocos</div>
+    <div class="subsection-title en">Squid & Cuttlefish</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Espetada Lulas c/ Gambas</div>
+          <div class="item-desc pt">Anéis de lula e gambas frescas em espetada aromática.</div>
+          <div class="item-desc en">Squid rings and fresh prawns on a fragrant skewer.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Chef's Pick</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Polvo à Lagareiro</div>
+          <div class="item-desc pt">Polvo assado, batata a murro, azeite e alho. O favorito da casa.</div>
+          <div class="item-desc en">Roasted octopus, smashed potato, olive oil and garlic. The house favourite.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Most Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Lulas à Casa</div>
+          <div class="item-desc pt">A receita exclusiva Duche Bar. Pedido frequente dos nossos habituais.</div>
+          <div class="item-desc en">The exclusive Duche Bar recipe. Frequently requested by our regulars.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Signature</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Lulas Grelhadas</div>
+          <div class="item-desc pt">Lulas inteiras na grelha. Limão e azeite. Pureza do mar.</div>
+          <div class="item-desc en">Whole squid on the grill. Lemon and olive oil. Pure sea flavour.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Lulas à Lagareiro</div>
+          <div class="item-desc pt">Lulas assadas com batata a murro e azeite. Versão generosa e reconfortante.</div>
+          <div class="item-desc en">Baked squid with smashed potato and olive oil. A generous and comforting dish.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Chocos Grelhados</div>
+          <div class="item-desc pt">Choco fresco na brasa. Simples, direto, delicioso.</div>
+          <div class="item-desc en">Fresh cuttlefish on the grill. Simple, direct, delicious.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="crosssell">
+      <div class="crosssell-icon">🍷</div>
+      <div class="crosssell-text">
+        <span class="pt"><strong>Combine bem:</strong> Adicione uma salada fresca ou arroz de tomate para acompanhar o seu prato de peixe.</span>
+        <span class="en"><strong>Goes well with:</strong> Add a fresh salad or tomato rice to accompany your fish dish.</span>
+      </div>
+    </div>
+
+  </div><!-- /sec-peixe -->
+
+
+  <!-- ════════════════════════════════
+       SECTION: PAELHAS
+  ════════════════════════════════ -->
+  <div id="sec-paelhas" class="menu-section">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Para partilhar</span>
+        <span class="en-inline">Perfect for sharing</span>
+      </div>
+      <h2 class="section-heading pt">Paelhas.</h2>
+      <h2 class="section-heading en">Paellas.</h2>
+      <p class="section-desc pt">Arroz absorvido em caldo rico do mar. Pensadas para partilhar — o prato que une pessoas em redor da mesa.</p>
+      <p class="section-desc en">Rice absorbed in rich sea broth. Designed to share — the dish that brings people together around the table.</p>
+    </div>
+
+    <div class="items-list" style="margin-top:20px;">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Paelha de Marisco</div>
+          <div class="item-desc pt">Camarão, mexilhão e berbigão em arroz saboroso de pimento. A mais pedida da casa.</div>
+          <div class="item-desc en">Shrimp, mussels and clams in flavourful pepper rice. The most requested in the house.</div>
+          <div class="item-badges">
+            <span class="item-badge chef">✦ Chef's Pick</span>
+            <span class="item-badge pop">♥ Most Popular</span>
+          </div>
+          <div class="item-suggest pt">→ Ideal para 2–3 pessoas. Combine com salada Romana.</div>
+          <div class="item-suggest en">→ Ideal for 2–3 people. Pair with Romana salad.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Paelha Mista</div>
+          <div class="item-desc pt">Frutos do mar e carne juntos. Arroz rico com sabores complementares.</div>
+          <div class="item-desc en">Seafood and meat together. Rich rice with complementary flavours.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+          <div class="item-suggest pt">→ Perfeita para grupos que gostam de variedade.</div>
+          <div class="item-suggest en">→ Perfect for groups who enjoy variety.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Paelha Valenciana</div>
+          <div class="item-desc pt">A receita clássica espanhola — frango, coelho e legumes. Tradição à mesa.</div>
+          <div class="item-desc en">The classic Spanish recipe — chicken, rabbit and vegetables. Tradition at the table.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Paelha Senhorito</div>
+          <div class="item-desc pt">Marisco descascado para uma refeição descomplicada. Elegância sem esforço.</div>
+          <div class="item-desc en">Shelled seafood for an effortless meal. Elegance without the work.</div>
+          <div class="item-badges"><span class="item-badge prem">◆ Premium</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-tip">
+      <div class="ticket-tip-text">
+        <span class="pt">🍽️ <strong>Dica:</strong> As paelhas são servidas para partilha. Para grupos de 4 ou mais pessoas, recomendamos 2 paelhas de tipos diferentes — crie uma mesa de experiências.</span>
+        <span class="en">🍽️ <strong>Tip:</strong> Paellas are served to share. For groups of 4 or more, we recommend 2 different paellas — create a table of experiences.</span>
+      </div>
+    </div>
+  </div><!-- /sec-paelhas -->
+
+
+  <!-- ════════════════════════════════
+       SECTION: CARNE
+  ════════════════════════════════ -->
+  <div id="sec-carne" class="menu-section">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Da terra ao lume</span>
+        <span class="en-inline">From land to fire</span>
+      </div>
+      <h2 class="section-heading pt">Carne.</h2>
+      <h2 class="section-heading en">Meat.</h2>
+      <p class="section-desc pt">Para quem prefere sabores da terra — grelhados no ponto certo, com guarnições generosas.</p>
+      <p class="section-desc en">For those who prefer land flavours — grilled to perfection, with generous sides.</p>
+    </div>
+
+    <div class="items-list" style="margin-top:20px;">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bitoque à Duche Bar</div>
+          <div class="item-desc pt">A nossa versão do clássico. Bife fino, ovo, batata frita e arroz. Servido com molho da casa.</div>
+          <div class="item-desc en">Our take on the classic. Thin steak, egg, fries and rice. Served with house sauce.</div>
+          <div class="item-badges">
+            <span class="item-badge chef">✦ Signature</span>
+            <span class="item-badge pop">♥ Popular</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Secretos de Porco Preto</div>
+          <div class="item-desc pt">Corte nobre do porco alentejano. Macio, suculento, com sabor profundo.</div>
+          <div class="item-desc en">Noble cut of Alentejo black pork. Tender, juicy, with deep flavour.</div>
+          <div class="item-badges"><span class="item-badge prem">◆ Premium</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Picanha à Paulista</div>
+          <div class="item-desc pt">Corte brasileiro com vinagrete, arroz e farofa. Influência além-Atlântico.</div>
+          <div class="item-desc en">Brazilian cut with vinaigrette, rice and farofa. Trans-Atlantic influence.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Chef's Pick</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bife à Portuguesa</div>
+          <div class="item-desc pt">Bife de novilho em manteiga e alho, com ovo e batata frita. Eterno e irresistível.</div>
+          <div class="item-desc en">Beef in garlic butter with egg and fries. Timeless and irresistible.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Frango no Churrasco</div>
+          <div class="item-desc pt">Metade de frango marinado e grelhado lentamente. Pele crocante, interior suculento.</div>
+          <div class="item-desc en">Half marinated chicken, slowly grilled. Crispy skin, juicy inside.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Supremos de Frango</div>
+          <div class="item-desc pt">Peito de frango grelhado. Opção leve e proteica.</div>
+          <div class="item-desc en">Grilled chicken breast. A light and protein-rich option.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bife Grelhado</div>
+          <div class="item-desc pt">Bife simples, grelhado no ponto que preferir.</div>
+          <div class="item-desc en">Simple grilled steak, cooked to your preference.</div>
+        </div>
+      </div>
+      <!-- Discrete items -->
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Salsicha c/ Ovo</div>
+          <div class="item-desc pt">Salsicha de porco com ovo. Opção simples.</div>
+          <div class="item-desc en">Pork sausage with egg. A simple option.</div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /sec-carne -->
+
+
+  <!-- ════════════════════════════════
+       SECTION: HAMBÚRGUERS
+  ════════════════════════════════ -->
+  <div id="sec-hamburguer" class="menu-section">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Hambúrguers Gourmet</span>
+        <span class="en-inline">Gourmet Burgers</span>
+      </div>
+      <h2 class="section-heading pt">Hambúrguers Gourmet.</h2>
+      <h2 class="section-heading en">Gourmet Burgers.</h2>
+      <p class="section-desc pt">Elaborados com carne premium, pão artesanal e ingredientes cuidadosamente selecionados.</p>
+      <p class="section-desc en">Crafted with premium beef, artisan buns and carefully selected ingredients.</p>
+    </div>
+
+    <div class="items-list" style="margin-top:20px;">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Hamburguer à Duche Bar</div>
+          <div class="item-desc pt">A nossa criação. Carne de novilho, molho especial da casa, alface e tomate.</div>
+          <div class="item-desc en">Our creation. Beef patty, special house sauce, lettuce and tomato.</div>
+          <div class="item-badges">
+            <span class="item-badge chef">✦ Signature</span>
+            <span class="item-badge pop">♥ Popular</span>
+          </div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Bacon Hamburguer</div>
+          <div class="item-desc pt">Hamburguer de novilho com bacon crocante. Para os amantes de intensidade.</div>
+          <div class="item-desc en">Beef burger with crispy bacon. For lovers of bold flavour.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Cheese Hamburguer</div>
+          <div class="item-desc pt">Hamburguer de novilho com queijo fundido. Simples e perfeito.</div>
+          <div class="item-desc en">Beef burger with melted cheese. Simple and perfect.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Vegetariana Hamburguer</div>
+          <div class="item-desc pt">Base vegetal, legumes assados e molho de iogurte. Opção sustentável e saborosa.</div>
+          <div class="item-desc en">Plant base, roasted vegetables and yogurt sauce. A sustainable and tasty option.</div>
+          <div class="item-badges"><span class="item-badge veg">🌿 Vegetariano</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="crosssell">
+      <div class="crosssell-icon">🍟</div>
+      <div class="crosssell-text">
+        <span class="pt"><strong>Todos os hambúrguers</strong> incluem batata frita. Adicione uma salada César para uma refeição mais completa.</span>
+        <span class="en"><strong>All burgers</strong> include fries. Add a César salad for a more complete meal.</span>
+      </div>
+    </div>
+  </div><!-- /sec-hamburguer -->
+
+
+  <!-- ════════════════════════════════
+       SECTION: LIGEIROS (Saladas, Omoletes, Massas, Crianças)
+  ════════════════════════════════ -->
+  <div id="sec-ligeiros" class="menu-section">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Opções Ligeiras</span>
+        <span class="en-inline">Light Options</span>
+      </div>
+      <h2 class="section-heading pt">Saladas, Omoletes & Ligeiros.</h2>
+      <h2 class="section-heading en">Salads, Omelettes & Light Bites.</h2>
+      <p class="section-desc pt">Opções frescas e ligeiras para quem quer desfrutar o dia sem peso. Ideais para almoço ou uma refeição entre sol e mar.</p>
+      <p class="section-desc en">Fresh and light options for those who want to enjoy the day without heaviness. Ideal for lunch or a meal between sun and sea.</p>
+    </div>
+
+    <div class="subsection-title pt">Saladas</div>
+    <div class="subsection-title en">Salads</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Salada César</div>
+          <div class="item-desc pt">Alface romana, croutons, anchovas, parmesão e molho César cremoso.</div>
+          <div class="item-desc en">Romaine lettuce, croutons, anchovies, parmesan and creamy Caesar dressing.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Salada Romana</div>
+          <div class="item-desc pt">Alface romana, tomate cereja, azeitonas e vinagrete suave.</div>
+          <div class="item-desc en">Romaine lettuce, cherry tomatoes, olives and light vinaigrette.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Salada de Atum</div>
+          <div class="item-desc pt">Atum em lata selecionado, milho, tomate e vinagrete de ervas.</div>
+          <div class="item-desc en">Selected canned tuna, corn, tomato and herb vinaigrette.</div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Salada de Pimento e Cebola</div>
+          <div class="item-desc pt">Pimento assado e cebola caramelizada. Simples e saborosa.</div>
+          <div class="item-desc en">Roasted pepper and caramelised onion. Simple and tasty.</div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Salada Mista</div>
+          <div class="item-desc pt">Mix de folhas, tomate e pepino.</div>
+          <div class="item-desc en">Mixed leaves, tomato and cucumber.</div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Salada Tomate e Cebola</div>
+          <div class="item-desc pt">Tomate maduro fatiado, cebola roxa e azeite.</div>
+          <div class="item-desc en">Sliced ripe tomato, red onion and olive oil.</div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Salada Simples</div>
+          <div class="item-desc pt">Alface, tomate e cenoura. A guarnição perfeita.</div>
+          <div class="item-desc en">Lettuce, tomato and carrot. The perfect side.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Omoletes</div>
+    <div class="subsection-title en">Omelettes</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Omelete Mista (Queijo e Fiambre)</div>
+          <div class="item-desc pt">Queijo e fiambre fundidos em ovo batido. O favorito.</div>
+          <div class="item-desc en">Cheese and ham melted in beaten egg. The favourite.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Omelete de Cogumelos</div>
+          <div class="item-desc pt">Cogumelos salteados com ervas aromáticas em omelete cremosa.</div>
+          <div class="item-desc en">Sautéed mushrooms with aromatic herbs in a creamy omelette.</div>
+          <div class="item-badges"><span class="item-badge veg">🌿 Vegetariano</span></div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Omelete de Queijo</div>
+          <div class="item-desc pt">Queijo fundido em omelete leve.</div>
+          <div class="item-desc en">Melted cheese in a light omelette.</div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Omelete de Fiambre</div>
+          <div class="item-desc pt">Fiambre em omelete simples e reconfortante.</div>
+          <div class="item-desc en">Ham in a simple and comforting omelette.</div>
+        </div>
+      </div>
+      <div class="item-row discrete">
+        <div class="item-left">
+          <div class="item-name">Omelete Simples</div>
+          <div class="item-desc pt">Ovo batido, sal e manteiga. O básico perfeito.</div>
+          <div class="item-desc en">Beaten egg, salt and butter. The perfect basic.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Massas</div>
+    <div class="subsection-title en">Pasta</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Fusilli de Frango e Cogumelos</div>
+          <div class="item-desc pt">Fusilli com frango desfiado, cogumelos salteados e molho cremoso de ervas.</div>
+          <div class="item-desc en">Fusilli with shredded chicken, sautéed mushrooms and creamy herb sauce.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Menu Crianças</div>
+    <div class="subsection-title en">Kids Menu</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Nouguettes de Frango c/ Batata Frita</div>
+          <div class="item-desc pt">Nuggets de frango dourados, crocantes e servidos com batata frita. Perfeitos para os mais novos.</div>
+          <div class="item-desc en">Golden crispy chicken nuggets served with fries. Perfect for the little ones.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Douradinhos de Pescada c/ Batata Frita</div>
+          <div class="item-desc pt">Filetes de pescada empanados, crocantes e suaves. Com batata frita e limão.</div>
+          <div class="item-desc en">Breaded hake fillets, crispy and mild. With fries and lemon.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /sec-ligeiros -->
+
+
+  <!-- ════════════════════════════════
+       SECTION: SOBREMESAS
+  ════════════════════════════════ -->
+  <div id="sec-sobremesas" class="menu-section">
+    <div class="section-intro">
+      <div class="section-label-top">
+        <span class="pt-inline">Doces do Duche</span>
+        <span class="en-inline">Duche Sweets</span>
+      </div>
+      <h2 class="section-heading pt">Sobremesas.</h2>
+      <h2 class="section-heading en">Desserts.</h2>
+    </div>
+
+    <div class="dessert-hero">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-18.webp" alt="Sobremesas Duche Bar">
+      <div class="dessert-hero-overlay">
+        <div class="dessert-hero-copy">
+          <div class="label pt">Doces Caseiros</div>
+          <div class="label en">Homemade Sweets</div>
+          <h3 class="pt">O final<br>que merece.</h3>
+          <h3 class="en">The ending<br>you deserve.</h3>
+          <div class="sub pt">Preparados com amor, todos os dias.</div>
+          <div class="sub en">Made with love, every single day.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Doces Caseiros</div>
+    <div class="subsection-title en">Homemade Sweets</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Mousse de Chocolate</div>
+          <div class="item-desc pt">Mousse cremosa de chocolate negro. Intensa, aveludada e irresistível.</div>
+          <div class="item-desc en">Creamy dark chocolate mousse. Intense, velvety and irresistible.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Chef's Pick</span><span class="item-badge pop">♥ Favorito</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Cheesecake</div>
+          <div class="item-desc pt">Base de bolacha, creme de queijo e calda de frutos silvestres. Feito na casa.</div>
+          <div class="item-desc en">Biscuit base, cream cheese and wild berry coulis. House-made.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Brownies c/ Gelado</div>
+          <div class="item-desc pt">Brownie quente de chocolate com uma bola de gelado. Contraste quente-frio perfeito.</div>
+          <div class="item-desc en">Warm chocolate brownie with a scoop of ice cream. The perfect hot-cold contrast.</div>
+          <div class="item-badges"><span class="item-badge chef">✦ Chef's Pick</span></div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Crepe c/ Gelado</div>
+          <div class="item-desc pt">Crepe fino e dourado com gelado de baunilha. Clássico do prazer simples.</div>
+          <div class="item-desc en">Thin golden crepe with vanilla ice cream. A classic simple pleasure.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Mousse de Manga</div>
+          <div class="item-desc pt">Mousse tropical, leve e refrescante. Perfeita para o verão.</div>
+          <div class="item-desc en">Tropical mousse, light and refreshing. Perfect for summer.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Arroz Doce</div>
+          <div class="item-desc pt">Arroz cremoso com leite, limão e canela. A avó aprovaria.</div>
+          <div class="item-desc en">Creamy rice with milk, lemon and cinnamon. Grandma would approve.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Pudim</div>
+          <div class="item-desc pt">Pudim de leite com caramelo. A sobremesa portuguesa por excelência.</div>
+          <div class="item-desc en">Milk pudding with caramel. The quintessential Portuguese dessert.</div>
+        </div>
+      </div>
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Gelado à Casa</div>
+          <div class="item-desc pt">Bolas de gelado com cobertura da escolha do dia.</div>
+          <div class="item-desc en">Scoops of ice cream with today's choice of topping.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsection-title pt">Gelados</div>
+    <div class="subsection-title en">Ice Cream</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Tarta Whisky</div>
+          <div class="item-desc pt">Gelado com notas de whisky e caramelo. Para os mais aventureiros.</div>
+          <div class="item-desc en">Ice cream with whisky and caramel notes. For the more adventurous.</div>
+          <div class="item-badges"><span class="item-badge prem">◆ Especial</span></div>
+        </div>
+      </div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Viennetta</div><div class="item-desc pt">Gelado clássico em camadas crocantes de chocolate.</div><div class="item-desc en">Classic ice cream in crispy chocolate layers.</div></div></div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Romântica</div><div class="item-desc pt">Gelado suave e cremoso com coulis de morango.</div><div class="item-desc en">Soft and creamy ice cream with strawberry coulis.</div></div></div>
+    </div>
+
+    <div class="subsection-title pt">Fruta Fresca</div>
+    <div class="subsection-title en">Fresh Fruit</div>
+
+    <div class="items-list">
+      <div class="item-row">
+        <div class="item-left">
+          <div class="item-name">Morangos c/ Natas</div>
+          <div class="item-desc pt">Morangos frescos com chantilly. Leveza e frescura num copo.</div>
+          <div class="item-desc en">Fresh strawberries with whipped cream. Lightness and freshness in a cup.</div>
+          <div class="item-badges"><span class="item-badge pop">♥ Popular</span></div>
+        </div>
+      </div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Morangos</div><div class="item-desc pt">Morangos frescos da época.</div><div class="item-desc en">Fresh seasonal strawberries.</div></div></div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Melão</div><div class="item-desc pt">Melão fresco, fatiado.</div><div class="item-desc en">Fresh sliced melon.</div></div></div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Ananás</div><div class="item-desc pt">Ananás fresco em fatias.</div><div class="item-desc en">Fresh pineapple slices.</div></div></div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Misto de Fruta</div><div class="item-desc pt">Seleção de frutas frescas da época.</div><div class="item-desc en">Selection of fresh seasonal fruits.</div></div></div>
+      <div class="item-row discrete"><div class="item-left"><div class="item-name">Fruta da Época</div><div class="item-desc pt">A melhor fruta do dia, tal como está.</div><div class="item-desc en">The best fruit of the day, just as it is.</div></div></div>
+    </div>
+
+    <div class="crosssell">
+      <div class="crosssell-icon">☕</div>
+      <div class="crosssell-text">
+        <span class="pt"><strong>Complete a experiência:</strong> Acompanhe a sobremesa com um café expresso ou um licor de Amêndoa Amarga. Peça ao nosso staff.</span>
+        <span class="en"><strong>Complete the experience:</strong> Enjoy your dessert with an espresso or Amaretto liqueur. Ask our staff.</span>
+      </div>
+    </div>
+  </div><!-- /sec-sobremesas -->
+
+  <div class="pad-bottom"></div>
+</div><!-- /menu-body -->
+
+<!-- ─── STICKY CTA ─── -->
+<div class="sticky-cta">
+  <a href="mailto:reservas@duchebar.com" class="cta-reserve">
+    <span class="pt-inline">Reservar Mesa</span>
+    <span class="en-inline">Book a Table</span>
+  </a>
+  <a href="tel:+351214831379" class="cta-call" title="+351 214 831 379">
+    📞
+  </a>
+</div>
+
+<script>
+function showSection(id, btn) {
+  document.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+  const sec = document.getElementById('sec-' + id);
+  if (sec) sec.classList.add('active');
+  btn.classList.add('active');
+  // Scroll btn into view
+  btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function setLang(lang, btn) {
+  document.body.classList.toggle('lang-en', lang === 'en');
+  document.querySelectorAll('.lang-switch button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.documentElement.lang = lang;
+}
+</script>
+</body>
+</html>
