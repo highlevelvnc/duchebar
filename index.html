@@ -1,0 +1,1862 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Duche Bar – Praia da Duquesa, Cascais</title>
+<meta name="description" content="Restaurante e bar à beira-mar na Praia da Duquesa, Cascais. Sabores do Atlântico com vista para o oceano.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sand: #f0ebe0;
+    --sand-light: #f8f4ec;
+    --ocean-deep: #0d2b45;
+    --ocean-mid: #1a4a6e;
+    --ocean-blue: #2a6fa8;
+    --ocean-light: #4d9bc4;
+    --gold: #c9a84c;
+    --gold-light: #e8c96d;
+    --text-dark: #0a1e30;
+    --text-mid: #3a5068;
+    --white: #ffffff;
+    --transition: 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: 'Jost', sans-serif;
+    background: var(--sand-light);
+    color: var(--text-dark);
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ═══════════════════════════════════
+     LOADER
+  ═══════════════════════════════════ */
+  #loader {
+    position: fixed;
+    inset: 0;
+    background: var(--ocean-deep);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    transition: opacity 0.8s ease, visibility 0.8s ease;
+  }
+
+  #loader.hidden { opacity: 0; visibility: hidden; }
+
+  .loader-logo {
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+
+  .loader-logo img { height: 48px; filter: brightness(0) invert(1) opacity(0.9); }
+
+  .loader-wave-container {
+    width: 200px;
+    height: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .loader-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: rgba(255,255,255,0.3);
+    transform-origin: left;
+    animation: lineGrow 0.5s ease 0.8s both;
+  }
+
+  .loader-wave-svg {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    animation: waveFade 1s ease 1s forwards;
+  }
+
+  .loader-text {
+    color: rgba(255,255,255,0.5);
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 1.2s forwards;
+  }
+
+  .loader-sub {
+    color: rgba(255,255,255,0.3);
+    font-family: 'Jost', sans-serif;
+    font-weight: 200;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.6s ease 1.4s forwards;
+  }
+
+  @keyframes lineGrow {
+    from { transform: scaleX(0); opacity: 0; }
+    to { transform: scaleX(1); opacity: 1; }
+  }
+
+  @keyframes waveFade {
+    0% { opacity: 0; }
+    30% { opacity: 1; }
+    70% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ═══════════════════════════════════
+     HEADER / NAV
+  ═══════════════════════════════════ */
+  #header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 20px 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.5s ease, padding 0.4s ease;
+  }
+
+  #header.scrolled {
+    background: rgba(13, 43, 69, 0.95);
+    backdrop-filter: blur(20px);
+    padding: 14px 48px;
+  }
+
+  .nav-logo img {
+    height: 36px;
+    filter: brightness(0) invert(1);
+    transition: opacity 0.3s ease;
+  }
+
+  .nav-logo img:hover { opacity: 0.8; }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 300;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    transition: color 0.3s ease;
+    position: relative;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+  }
+
+  .nav-links a:hover { color: white; }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .lang-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.5);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    padding: 4px 6px;
+    transition: color 0.3s ease;
+  }
+
+  .lang-btn.active { color: var(--gold); }
+  .lang-btn:hover { color: white; }
+
+  .lang-divider {
+    width: 1px; height: 12px;
+    background: rgba(255,255,255,0.2);
+  }
+
+  .btn-reserve-nav {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.4);
+    color: white;
+    padding: 8px 20px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.3s ease;
+  }
+
+  .btn-reserve-nav:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--ocean-deep);
+  }
+
+  /* ═══════════════════════════════════
+     HERO
+  ═══════════════════════════════════ */
+  #hero {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: var(--ocean-deep);
+  }
+
+  #hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+
+  #hero-video.loaded { opacity: 1; }
+
+  #hero-iframe {
+    position: absolute;
+    inset: -10%;
+    width: 120%;
+    height: 120%;
+    border: none;
+    pointer-events: none;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      160deg,
+      rgba(13,43,69,0.55) 0%,
+      rgba(13,43,69,0.35) 50%,
+      rgba(13,43,69,0.6) 100%
+    );
+  }
+
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .hero-eyebrow {
+    color: var(--gold);
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 300;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.3s forwards;
+  }
+
+  .hero-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-size: clamp(56px, 8vw, 112px);
+    color: white;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero-headline em {
+    font-style: italic;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.9s forwards;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--ocean-deep);
+    border: none;
+    padding: 14px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+
+  .btn-primary:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.5);
+    padding: 14px 32px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.35s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: white;
+    transform: translateY(-2px);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 1.4s forwards;
+  }
+
+  .hero-scroll span {
+    color: rgba(255,255,255,0.4);
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 200;
+  }
+
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 1; }
+  }
+
+  /* ═══════════════════════════════════
+     SECTION COMMONS
+  ═══════════════════════════════════ */
+  .section-label {
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 20px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--text-dark);
+  }
+
+  .section-title.light { color: white; }
+
+  .section-body {
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--text-mid);
+  }
+
+  .section-body.light { color: rgba(255,255,255,0.7); }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.35s; }
+  .reveal-delay-4 { transition-delay: 0.5s; }
+
+  /* ═══════════════════════════════════
+     CHAPTER 1 – AMBIENTE
+  ═══════════════════════════════════ */
+  #ambiente {
+    background: var(--sand-light);
+    padding: 120px 0;
+  }
+
+  .ambiente-intro {
+    max-width: 640px;
+    margin: 0 auto 100px;
+    text-align: center;
+    padding: 0 24px;
+  }
+
+  .ambiente-intro .section-body {
+    margin-top: 24px;
+    font-size: 17px;
+    color: var(--text-mid);
+  }
+
+  .ambiente-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+
+  .ambiente-item {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4/3;
+  }
+
+  .ambiente-item:nth-child(1) { grid-column: 1; grid-row: 1 2; aspect-ratio: unset; }
+  .ambiente-item:nth-child(2) { grid-column: 2; grid-row: 1; }
+  .ambiente-item:nth-child(3) { grid-column: 2; grid-row: 2; }
+  .ambiente-item:nth-child(4) {
+    grid-column: 1 / -1;
+    aspect-ratio: 21/8;
+  }
+
+  .ambiente-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(0.25,0.46,0.45,0.94);
+    display: block;
+  }
+
+  .ambiente-item:hover img { transform: scale(1.04); }
+
+  .ambiente-caption {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    color: rgba(255,255,255,0.9);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    font-weight: 300;
+  }
+
+  /* ═══════════════════════════════════
+     CHAPTER 2 – GASTRONOMIA
+  ═══════════════════════════════════ */
+  #gastronomia {
+    background: var(--ocean-deep);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+  }
+
+  .gastro-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .gastro-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .gastro-content {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .gastro-content .section-title {
+    color: white;
+    margin: 16px 0 32px;
+    line-height: 1.15;
+  }
+
+  .gastro-content .section-body {
+    color: rgba(255,255,255,0.65);
+    margin-bottom: 40px;
+    font-size: 15px;
+    line-height: 1.85;
+  }
+
+  .gastro-divider {
+    width: 40px;
+    height: 1px;
+    background: var(--gold);
+    margin: 32px 0;
+  }
+
+  /* ═══════════════════════════════════
+     MENU
+  ═══════════════════════════════════ */
+  #menu {
+    background: var(--sand-light);
+    padding: 120px 0;
+  }
+
+  .menu-header {
+    text-align: center;
+    margin-bottom: 64px;
+    padding: 0 24px;
+  }
+
+  .menu-nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 64px;
+    padding: 0 24px;
+  }
+
+  .menu-tab {
+    background: none;
+    border: 1px solid rgba(13,43,69,0.15);
+    color: var(--text-mid);
+    padding: 9px 18px;
+    font-family: 'Jost', sans-serif;
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .menu-tab:hover,
+  .menu-tab.active {
+    background: var(--ocean-deep);
+    border-color: var(--ocean-deep);
+    color: white;
+  }
+
+  .menu-panel { display: none; }
+  .menu-panel.active { display: block; }
+
+  .menu-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 48px;
+    columns: 2;
+    column-gap: 64px;
+  }
+
+  .menu-item {
+    break-inside: avoid;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(13,43,69,0.07);
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 16px;
+  }
+
+  .menu-item-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--text-dark);
+    line-height: 1.3;
+  }
+
+  .menu-item-dot {
+    flex: 1;
+    height: 1px;
+    background: rgba(13,43,69,0.1);
+    margin: 0 8px;
+    min-width: 20px;
+  }
+
+  .menu-feature-image {
+    max-width: 900px;
+    margin: 60px auto 0;
+    padding: 0 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .menu-feature-image img {
+    width: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .menu-feature-image img:first-child { aspect-ratio: 4/3; }
+  .menu-feature-image img:last-child { aspect-ratio: 4/3; }
+
+  /* ═══════════════════════════════════
+     SOBREMESAS
+  ═══════════════════════════════════ */
+  #sobremesas {
+    background: var(--ocean-deep);
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    min-height: 70vh;
+  }
+
+  .sobremesas-content {
+    padding: 80px 64px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .sobremesas-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    margin-top: 40px;
+  }
+
+  .sobremesa-category {
+    padding: 32px 32px 32px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .sobremesa-cat-title {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .sobremesa-item {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.75);
+    padding: 5px 0;
+    line-height: 1.4;
+  }
+
+  .sobremesas-image {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sobremesas-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* ═══════════════════════════════════
+     SUP CASCAIS
+  ═══════════════════════════════════ */
+  #sup {
+    background: var(--sand-light);
+    padding: 0;
+  }
+
+  .sup-hero {
+    position: relative;
+    height: 85vh;
+    overflow: hidden;
+  }
+
+  .sup-hero-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.05);
+    transition: transform 8s ease;
+  }
+
+  .sup-hero:hover .sup-hero-bg { transform: scale(1); }
+
+  .sup-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to right, rgba(13,43,69,0.7) 0%, rgba(13,43,69,0.2) 100%);
+  }
+
+  .sup-content {
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+  }
+
+  .sup-content .section-label { color: var(--gold); }
+
+  .sup-content .section-title {
+    color: white;
+    font-size: clamp(48px, 6vw, 80px);
+    margin: 16px 0 32px;
+    line-height: 1.05;
+  }
+
+  .sup-content .section-body { color: rgba(255,255,255,0.7); max-width: 480px; }
+
+  .sup-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--ocean-deep);
+  }
+
+  .sup-grid-item {
+    overflow: hidden;
+    aspect-ratio: 4/3;
+    position: relative;
+  }
+
+  .sup-grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 1s ease;
+  }
+
+  .sup-grid-item:hover img { transform: scale(1.06); }
+
+  /* ═══════════════════════════════════
+     GALERIA
+  ═══════════════════════════════════ */
+  #galeria {
+    background: var(--sand-light);
+    padding: 120px 0;
+  }
+
+  .galeria-header {
+    text-align: center;
+    margin-bottom: 64px;
+    padding: 0 24px;
+  }
+
+  .masonry {
+    column-count: 3;
+    column-gap: 12px;
+    padding: 0 48px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .masonry-item {
+    break-inside: avoid;
+    margin-bottom: 12px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .masonry-item img {
+    width: 100%;
+    display: block;
+    transition: transform 1s cubic-bezier(0.25,0.46,0.45,0.94);
+  }
+
+  .masonry-item:hover img { transform: scale(1.04); }
+
+  /* ═══════════════════════════════════
+     REVIEWS
+  ═══════════════════════════════════ */
+  #reviews {
+    background: var(--ocean-deep);
+    padding: 100px 48px;
+    text-align: center;
+  }
+
+  .reviews-header .section-title { color: white; margin: 16px 0 48px; }
+
+  .reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 1100px;
+    margin: 0 auto 48px;
+  }
+
+  .review-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 36px 32px;
+    text-align: left;
+    transition: background 0.3s ease, border-color 0.3s ease;
+  }
+
+  .review-card:hover {
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .review-stars {
+    color: var(--gold);
+    font-size: 14px;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+  }
+
+  .review-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    font-style: italic;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .review-author {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    font-weight: 300;
+  }
+
+  .tripadvisor-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+    padding-bottom: 4px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+
+  .tripadvisor-link:hover {
+    color: rgba(255,255,255,0.7);
+    border-color: rgba(255,255,255,0.4);
+  }
+
+  /* ═══════════════════════════════════
+     CONTACT / INFO
+  ═══════════════════════════════════ */
+  #contact {
+    background: var(--sand-light);
+    padding: 120px 48px;
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+  }
+
+  .contact-info .section-title { margin: 16px 0 32px; }
+
+  .contact-detail {
+    margin-bottom: 24px;
+  }
+
+  .contact-detail-label {
+    font-size: 9px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 400;
+    margin-bottom: 6px;
+  }
+
+  .contact-detail-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    color: var(--text-dark);
+  }
+
+  .contact-detail-value a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .contact-detail-value a:hover { color: var(--ocean-mid); }
+
+  .btn-directions {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 32px;
+    color: var(--ocean-mid);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    font-weight: 400;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 3px;
+    transition: color 0.3s;
+  }
+
+  .btn-directions:hover { color: var(--ocean-deep); }
+
+  .contact-form-section h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text-dark);
+    margin-bottom: 32px;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 8px;
+    font-weight: 400;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    width: 100%;
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(13,43,69,0.2);
+    padding: 10px 0;
+    font-family: 'Jost', sans-serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--text-dark);
+    outline: none;
+    transition: border-color 0.3s;
+    appearance: none;
+  }
+
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--ocean-mid);
+  }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+
+  .btn-submit {
+    background: var(--ocean-deep);
+    color: white;
+    border: none;
+    padding: 14px 40px;
+    font-family: 'Jost', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    margin-top: 12px;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+
+  .btn-submit:hover {
+    background: var(--ocean-mid);
+    transform: translateY(-2px);
+  }
+
+  /* ═══════════════════════════════════
+     FOOTER
+  ═══════════════════════════════════ */
+  footer {
+    background: var(--ocean-deep);
+    padding: 60px 48px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: 32px;
+  }
+
+  footer .footer-brand img {
+    height: 32px;
+    filter: brightness(0) invert(1) opacity(0.7);
+  }
+
+  footer .footer-copy {
+    font-size: 10px;
+    font-weight: 300;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+  }
+
+  footer .footer-links {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  footer .footer-links a {
+    color: rgba(255,255,255,0.35);
+    text-decoration: none;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    transition: color 0.3s;
+  }
+
+  footer .footer-links a:hover { color: rgba(255,255,255,0.7); }
+
+  .livro-link {
+    display: inline-flex;
+    align-items: center;
+    transition: opacity 0.3s;
+  }
+
+  .livro-link:hover { opacity: 0.7; }
+
+  .livro-link img { height: 28px; }
+
+  /* ═══════════════════════════════════
+     MOOD SWITCHER
+  ═══════════════════════════════════ */
+  .mood-switcher {
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mood-btn {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+  }
+
+  .mood-btn::before {
+    content: attr(data-label);
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-family: 'Jost', sans-serif;
+    text-transform: uppercase;
+  }
+
+  .mood-btn:hover::before { opacity: 1; }
+  .mood-btn.active { background: var(--gold); border-color: var(--gold); }
+
+  /* Day mode (default) — already set in :root */
+  
+  body.mood-sunset {
+    --sand: #f5e8d0;
+    --sand-light: #fdf1e0;
+    --ocean-deep: #3d1a00;
+    --ocean-mid: #7a3500;
+    --ocean-blue: #c86b00;
+    --gold: #e8943a;
+    --text-dark: #2a1000;
+    --text-mid: #6a3a1a;
+  }
+
+  body.mood-night {
+    --sand: #0a0e18;
+    --sand-light: #0d1220;
+    --ocean-deep: #040812;
+    --ocean-mid: #0e2040;
+    --ocean-blue: #1a3a6a;
+    --gold: #4d9bc4;
+    --text-dark: #c8d8e8;
+    --text-mid: #6a8aa8;
+  }
+
+  body.mood-night #reviews,
+  body.mood-night #gastronomia,
+  body.mood-night #sobremesas,
+  body.mood-night footer { background: #020610; }
+
+  /* ═══════════════════════════════════
+     UTILITY
+  ═══════════════════════════════════ */
+  .en { display: none; }
+  body.lang-en .pt { display: none; }
+  body.lang-en .en { display: block; }
+
+  [data-inline-en],
+  [data-inline-pt] { }
+
+  .divider-line {
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+    margin: 0 auto;
+  }
+
+  /* ═══════════════════════════════════
+     RESPONSIVE
+  ═══════════════════════════════════ */
+  @media (max-width: 900px) {
+    #header { padding: 16px 20px; }
+    #header.scrolled { padding: 12px 20px; }
+    .nav-links { display: none; }
+
+    #gastronomia { grid-template-columns: 1fr; }
+    .gastro-image { height: 50vw; }
+    .gastro-content { padding: 60px 32px; }
+
+    #sobremesas { grid-template-columns: 1fr; }
+    .sobremesas-image { height: 50vw; order: -1; }
+    .sobremesas-content { padding: 60px 32px; }
+    .sobremesas-list { grid-template-columns: 1fr 1fr; }
+
+    .ambiente-grid { grid-template-columns: 1fr; }
+    .ambiente-item:nth-child(1),
+    .ambiente-item:nth-child(2),
+    .ambiente-item:nth-child(3),
+    .ambiente-item:nth-child(4) {
+      grid-column: 1; grid-row: auto;
+    }
+    .ambiente-item { aspect-ratio: 4/3 !important; }
+
+    .menu-grid { columns: 1; padding: 0 24px; }
+
+    .masonry { column-count: 2; padding: 0 20px; }
+
+    .reviews-grid { grid-template-columns: 1fr; }
+
+    #contact {
+      grid-template-columns: 1fr;
+      padding: 80px 24px;
+      gap: 60px;
+    }
+
+    .sup-grid { grid-template-columns: 1fr 1fr; }
+
+    footer { flex-direction: column; align-items: flex-start; padding: 40px 24px 32px; }
+
+    .mood-switcher { display: none; }
+  }
+
+  @media (max-width: 600px) {
+    .masonry { column-count: 1; }
+    .menu-feature-image { grid-template-columns: 1fr; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-buttons { flex-direction: column; align-items: center; }
+    .sup-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="lang-pt">
+
+<!-- ═══ LOADER ═══ -->
+<div id="loader">
+  <div class="loader-logo">
+    <img src="https://www.duchebar.com/img/logo-400x130.webp" alt="Duche Bar">
+  </div>
+  <div class="loader-wave-container">
+    <div class="loader-line"></div>
+    <svg class="loader-wave-svg" viewBox="0 0 200 40" fill="none" preserveAspectRatio="none">
+      <path d="M0,20 C25,8 50,32 75,20 C100,8 125,32 150,20 C175,8 200,20 200,20" stroke="rgba(201,168,76,0.6)" stroke-width="1" fill="none">
+        <animate attributeName="d" 
+          values="M0,20 C25,8 50,32 75,20 C100,8 125,32 150,20 C175,8 200,20 200,20;
+                  M0,20 C25,32 50,8 75,20 C100,32 125,8 150,20 C175,32 200,20 200,20;
+                  M0,20 C25,8 50,32 75,20 C100,8 125,32 150,20 C175,8 200,20 200,20"
+          dur="2s" repeatCount="indefinite"/>
+      </path>
+    </svg>
+  </div>
+  <div class="loader-text">Duche Bar</div>
+  <div class="loader-sub pt">Praia da Duquesa — Cascais</div>
+  <div class="loader-sub en">Cascais, Portugal</div>
+</div>
+
+<!-- ═══ MOOD SWITCHER ═══ -->
+<div class="mood-switcher">
+  <button class="mood-btn active" data-mood="day" data-label="Day" onclick="setMood('day',this)"></button>
+  <button class="mood-btn" data-mood="sunset" data-label="Sunset" onclick="setMood('sunset',this)"></button>
+  <button class="mood-btn" data-mood="night" data-label="Night" onclick="setMood('night',this)"></button>
+</div>
+
+<!-- ═══ HEADER ═══ -->
+<header id="header">
+  <a class="nav-logo" href="#hero">
+    <img src="https://www.duchebar.com/img/logo-400x130.webp" alt="Duche Bar">
+  </a>
+  <nav>
+    <ul class="nav-links">
+      <li><a href="#ambiente" class="pt">Ambiente</a><a href="#ambiente" class="en">Ambience</a></li>
+      <li><a href="#menu" class="pt">Menu</a><a href="#menu" class="en">Menu</a></li>
+      <li><a href="#sup" class="pt">SUP Cascais</a><a href="#sup" class="en">SUP Cascais</a></li>
+      <li><a href="#galeria" class="pt">Galeria</a><a href="#galeria" class="en">Gallery</a></li>
+      <li><a href="#contact" class="pt">Contacto</a><a href="#contact" class="en">Contact</a></li>
+    </ul>
+  </nav>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('pt',this)">PT</button>
+      <div class="lang-divider"></div>
+      <button class="lang-btn" onclick="setLang('en',this)">EN</button>
+    </div>
+    <a href="#contact" class="btn-reserve-nav pt">Reservar</a>
+    <a href="#contact" class="btn-reserve-nav en">Reserve</a>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <!-- YouTube embed as background -->
+  <iframe id="hero-iframe"
+    src="https://www.youtube.com/embed/eL3K8CN7-cc?autoplay=1&mute=1&loop=1&playlist=eL3K8CN7-cc&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">Praia da Duquesa · Cascais</p>
+    <h1 class="hero-headline">
+      <span class="pt">Sabores do<br><em>Atlântico.</em></span>
+      <span class="en">Taste the<br><em>Atlantic.</em></span>
+    </h1>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn-primary pt">Reservar Mesa</a>
+      <a href="#contact" class="btn-primary en">Book a Table</a>
+      <a href="#menu" class="btn-secondary pt">Ver Menu</a>
+      <a href="#menu" class="btn-secondary en">View Menu</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span class="pt">Explorar</span>
+    <span class="en">Explore</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 1 – AMBIENTE ═══ -->
+<section id="ambiente">
+  <div class="ambiente-intro reveal">
+    <p class="section-label pt">Capítulo I</p>
+    <p class="section-label en">Chapter I</p>
+    <h2 class="section-title">
+      <span class="pt">O ambiente.</span>
+      <span class="en">The ambience.</span>
+    </h2>
+    <p class="section-body pt">À beira do oceano Atlântico, onde a areia encontra o horizonte. Um espaço que respira tranquilidade, luz natural e o ritmo lento das ondas. Cada detalhe pensado para que o tempo se estenda.</p>
+    <p class="section-body en">At the edge of the Atlantic Ocean, where sand meets the horizon. A space that breathes tranquility, natural light, and the slow rhythm of waves. Every detail designed to make time stretch.</p>
+  </div>
+  <div class="ambiente-grid">
+    <div class="ambiente-item reveal">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-14.webp" alt="Duche Bar ambiente" loading="lazy">
+      <div class="ambiente-caption">Praia da Duquesa</div>
+    </div>
+    <div class="ambiente-item reveal reveal-delay-1">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-16.webp" alt="Duche Bar interior" loading="lazy">
+    </div>
+    <div class="ambiente-item reveal reveal-delay-2">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-1.webp" alt="Duche Bar vista" loading="lazy">
+    </div>
+    <div class="ambiente-item reveal reveal-delay-3" style="grid-column:1/-1;aspect-ratio:21/7;">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-17.webp" alt="Duche Bar panorama" loading="lazy">
+      <div class="ambiente-caption">Cascais · Portugal</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CHAPTER 2 – GASTRONOMIA ═══ -->
+<section id="gastronomia">
+  <div class="gastro-image">
+    <img src="https://www.duchebar.com/img/DUCHEBAR-7.webp" alt="Marisco fresco Duche Bar" loading="lazy">
+  </div>
+  <div class="gastro-content">
+    <p class="section-label pt">Capítulo II</p>
+    <p class="section-label en">Chapter II</p>
+    <h2 class="section-title reveal pt">Marisco fresco.<br>Fogo.<br>Simplicidade.</h2>
+    <h2 class="section-title reveal en">Fresh seafood.<br>Fire.<br>Simplicity.</h2>
+    <div class="gastro-divider"></div>
+    <p class="section-body light reveal reveal-delay-1 pt">Ingredientes honestos, técnicas simples, sabores que permanecem. A nossa cozinha é um tributo ao mar que nos rodeia — peixe fresco, marisco do dia, preparados com respeito pelo produto.</p>
+    <p class="section-body light reveal reveal-delay-1 en">Honest ingredients, simple techniques, flavours that linger. Our kitchen is a tribute to the sea that surrounds us — fresh fish, daily seafood, prepared with respect for the product.</p>
+    <a href="#menu" class="btn-secondary reveal reveal-delay-2 pt" style="align-self:flex-start;margin-top:8px;">Explorar o Menu</a>
+    <a href="#menu" class="btn-secondary reveal reveal-delay-2 en" style="align-self:flex-start;margin-top:8px;">Explore the Menu</a>
+  </div>
+</section>
+
+<!-- ═══ MENU ═══ -->
+<section id="menu">
+  <div class="menu-header reveal">
+    <p class="section-label pt">Menu</p>
+    <p class="section-label en">Menu</p>
+    <h2 class="section-title">
+      <span class="pt">Uma carta para cada momento.</span>
+      <span class="en">A menu for every moment.</span>
+    </h2>
+  </div>
+
+  <div class="menu-nav">
+    <button class="menu-tab active" onclick="showMenu('especialidades',this)" data-pt="Especialidades" data-en="Specialties">Especialidades</button>
+    <button class="menu-tab" onclick="showMenu('saladas',this)" data-pt="Saladas" data-en="Salads">Saladas</button>
+    <button class="menu-tab" onclick="showMenu('omoletes',this)" data-pt="Omoletes" data-en="Omelettes">Omoletes</button>
+    <button class="menu-tab" onclick="showMenu('massas',this)" data-pt="Massas" data-en="Pasta">Massas</button>
+    <button class="menu-tab" onclick="showMenu('paelhas',this)" data-pt="Paelhas" data-en="Paellas">Paelhas</button>
+    <button class="menu-tab" onclick="showMenu('peixe',this)" data-pt="Peixe" data-en="Fish">Peixe</button>
+    <button class="menu-tab" onclick="showMenu('carne',this)" data-pt="Carne" data-en="Meat">Carne</button>
+    <button class="menu-tab" onclick="showMenu('hamburguer',this)" data-pt="Hambúrguers" data-en="Burgers">Hambúrguers</button>
+    <button class="menu-tab" onclick="showMenu('criancas',this)" data-pt="Crianças" data-en="Kids">Crianças</button>
+  </div>
+
+  <!-- Especialidades -->
+  <div id="menu-especialidades" class="menu-panel active">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Espetada Lulas c/ Gambas</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Polvo à Lagareiro</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Lulas à Casa</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bife à Portuguesa</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Arroz de Marisco</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Feijoada de Marisco</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Grelhada Mista de Peixe</span><div class="menu-item-dot"></div></div>
+    </div>
+    <div class="menu-feature-image">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-4.webp" alt="Especialidades Duche Bar" loading="lazy">
+      <img src="https://www.duchebar.com/img/DUCHEBAR-10.webp" alt="Prato Duche Bar" loading="lazy">
+    </div>
+  </div>
+
+  <!-- Saladas -->
+  <div id="menu-saladas" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Romana</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">César</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Atum</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Pimento e Cebola</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Mista</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Tomate e Cebola</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Simples</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Omoletes -->
+  <div id="menu-omoletes" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Simples</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Queijo</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Fiambre</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Mista (Queijo e Fiambre)</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Cogumelos</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Massas -->
+  <div id="menu-massas" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Fusilli de Frango e Cogumelos</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Paelhas -->
+  <div id="menu-paelhas" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Valenciana</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Mista</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Senhorito</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Marisco</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Peixe -->
+  <div id="menu-peixe" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Sardinhas na Brasa (5 uni)</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Carapaus na Brasa</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Peixe Espada Grelhado</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Salmão Grelhado</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Dourada Grelhada</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Robalo Grelhado</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Linguado Grelhado (kg)</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bacalhau à Lagareiro</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bacalhau à Minhota</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bacalhau à Brás</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Polvo à Lagareiro</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Chocos Grelhados</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Espetada Lulas c/ Gambas</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Lulas Grelhadas</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Lulas à Lagareiro</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Lulas à Casa</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Carne -->
+  <div id="menu-carne" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Salsicha c/ Ovo</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bitoque à Duche Bar</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Secretos de Porco Preto</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Frango no Churrasco</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Supremos de Frango</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Picanha à Paulista</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bife à Portuguesa</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bife Grelhado</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Hambúrguers -->
+  <div id="menu-hamburguer" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">À Duche Bar</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Cheese Hamburguer</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Bacon Hamburguer</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Vegetariana Hamburguer</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+
+  <!-- Crianças -->
+  <div id="menu-criancas" class="menu-panel">
+    <div class="menu-grid">
+      <div class="menu-item"><span class="menu-item-name">Nouguettes de Frango c/ Batata Frita</span><div class="menu-item-dot"></div></div>
+      <div class="menu-item"><span class="menu-item-name">Douradinhos de Pescada c/ Batata Frita</span><div class="menu-item-dot"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SOBREMESAS ═══ -->
+<section id="sobremesas">
+  <div class="sobremesas-content">
+    <p class="section-label pt">Sobremesas</p>
+    <p class="section-label en">Desserts</p>
+    <h2 class="section-title reveal" style="color:white;">
+      <span class="pt">O final perfeito.</span>
+      <span class="en">The perfect ending.</span>
+    </h2>
+    <div class="sobremesas-list">
+      <div class="sobremesa-category reveal reveal-delay-1">
+        <div class="sobremesa-cat-title pt">Fruta</div>
+        <div class="sobremesa-cat-title en">Fruit</div>
+        <div class="sobremesa-item">Morangos</div>
+        <div class="sobremesa-item">Morangos c/ Natas</div>
+        <div class="sobremesa-item">Melão</div>
+        <div class="sobremesa-item">Ananás</div>
+        <div class="sobremesa-item">Misto de Fruta</div>
+        <div class="sobremesa-item pt">Fruta da Época</div>
+        <div class="sobremesa-item en">Seasonal Fruit</div>
+      </div>
+      <div class="sobremesa-category reveal reveal-delay-2">
+        <div class="sobremesa-cat-title pt">Gelados</div>
+        <div class="sobremesa-cat-title en">Ice Cream</div>
+        <div class="sobremesa-item">Viennetta</div>
+        <div class="sobremesa-item">Romântica</div>
+        <div class="sobremesa-item">Tarta Whisky</div>
+      </div>
+      <div class="sobremesa-category reveal reveal-delay-3">
+        <div class="sobremesa-cat-title pt">Doces Caseiros</div>
+        <div class="sobremesa-cat-title en">Homemade Sweets</div>
+        <div class="sobremesa-item pt">Gelado à Casa</div>
+        <div class="sobremesa-item en">Ice Cream à Casa</div>
+        <div class="sobremesa-item pt">Crepe c/ Gelado</div>
+        <div class="sobremesa-item en">Crepe with Ice Cream</div>
+        <div class="sobremesa-item pt">Brownies c/ Gelado</div>
+        <div class="sobremesa-item en">Brownies with Ice Cream</div>
+        <div class="sobremesa-item pt">Arroz Doce</div>
+        <div class="sobremesa-item en">Rice Pudding</div>
+        <div class="sobremesa-item">Pudim</div>
+        <div class="sobremesa-item pt">Mousse de Chocolate</div>
+        <div class="sobremesa-item en">Chocolate Mousse</div>
+        <div class="sobremesa-item pt">Mousse de Manga</div>
+        <div class="sobremesa-item en">Mango Mousse</div>
+        <div class="sobremesa-item">Cheesecake</div>
+      </div>
+    </div>
+  </div>
+  <div class="sobremesas-image">
+    <img src="https://www.duchebar.com/img/DUCHEBAR-18.webp" alt="Sobremesas Duche Bar" loading="lazy">
+  </div>
+</section>
+
+<!-- ═══ SUP CASCAIS ═══ -->
+<section id="sup">
+  <div class="sup-hero">
+    <img class="sup-hero-bg" src="https://www.duchebar.com/img/Main_SUP_Cascais-4.webp" alt="SUP Cascais" loading="lazy">
+    <div class="sup-overlay"></div>
+    <div class="sup-content">
+      <p class="section-label">SUP Cascais</p>
+      <h2 class="section-title reveal pt">Mar.<br>Movimento.<br>Liberdade.</h2>
+      <h2 class="section-title reveal en">Sea.<br>Motion.<br>Freedom.</h2>
+      <p class="section-body light reveal reveal-delay-1 pt" style="max-width:420px;margin-top:20px;">Paddle surf nas águas cristalinas de Cascais. Uma experiência para todos os níveis, com instrutores certificados e equipamento de qualidade.</p>
+      <p class="section-body light reveal reveal-delay-1 en" style="max-width:420px;margin-top:20px;">Stand-up paddleboarding in the crystal-clear waters of Cascais. An experience for all levels, with certified instructors and quality equipment.</p>
+    </div>
+  </div>
+  <div class="sup-grid">
+    <div class="sup-grid-item">
+      <img src="https://www.duchebar.com/img/Main_SUP_Cascais-1.webp" alt="SUP Cascais" loading="lazy">
+    </div>
+    <div class="sup-grid-item">
+      <img src="https://www.duchebar.com/img/Main_SUP_Cascais-2.webp" alt="SUP Cascais" loading="lazy">
+    </div>
+    <div class="sup-grid-item">
+      <img src="https://www.duchebar.com/img/Main_SUP_Cascais-3.webp" alt="SUP Cascais" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALERIA ═══ -->
+<section id="galeria">
+  <div class="galeria-header reveal">
+    <p class="section-label pt">Galeria</p>
+    <p class="section-label en">Gallery</p>
+    <h2 class="section-title">
+      <span class="pt">Momentos à beira-mar.</span>
+      <span class="en">Moments by the sea.</span>
+    </h2>
+  </div>
+  <div class="masonry">
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-8.jpeg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-11.jpeg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-6.jpeg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-5.jpeg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-9.jpeg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-3.jpeg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-18.jpg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-13.jpg" alt="Duche Bar" loading="lazy"></div>
+    <div class="masonry-item"><img src="https://www.duchebar.com/img/DUCHEBAR-2.jpeg" alt="Duche Bar" loading="lazy"></div>
+  </div>
+</section>
+
+<!-- ═══ REVIEWS ═══ -->
+<section id="reviews">
+  <div class="reviews-header reveal">
+    <p class="section-label">TripAdvisor</p>
+    <h2 class="section-title">
+      <span class="pt">O que dizem de nós.</span>
+      <span class="en">What guests say.</span>
+    </h2>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card reveal reveal-delay-1">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Vista deslumbrante para o oceano, comida fresca e serviço atencioso. Uma tarde perfeita em Cascais."</p>
+      <div class="review-author">Visitante TripAdvisor</div>
+    </div>
+    <div class="review-card reveal reveal-delay-2">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"The freshest seafood I've had in Portugal. The setting right on the beach is absolutely magical."</p>
+      <div class="review-author">TripAdvisor Guest</div>
+    </div>
+    <div class="review-card reveal reveal-delay-3">
+      <div class="review-stars">★★★★★</div>
+      <p class="review-text">"Lugar único. O polvo à lagareiro estava perfeito. Voltaremos certamente."</p>
+      <div class="review-author">Visitante TripAdvisor</div>
+    </div>
+  </div>
+  <a href="https://www.tripadvisor.pt/Restaurant_Review-g189154-d7178324-Reviews-Restaurante_Duche_Bar-Cascais_Lisbon_District_Central_Portugal.html" target="_blank" class="tripadvisor-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+    <span class="pt">Ver todas as avaliações no TripAdvisor</span>
+    <span class="en">See all reviews on TripAdvisor</span>
+  </a>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section>
+<div id="contact">
+  <div class="contact-info">
+    <p class="section-label pt">Localização & Contacto</p>
+    <p class="section-label en">Location & Contact</p>
+    <h2 class="section-title reveal pt">Visite-nos.</h2>
+    <h2 class="section-title reveal en">Visit us.</h2>
+    <div class="contact-detail reveal reveal-delay-1">
+      <div class="contact-detail-label pt">Morada</div>
+      <div class="contact-detail-label en">Address</div>
+      <div class="contact-detail-value">Praia da Duquesa<br>2750 – Cascais</div>
+    </div>
+    <div class="contact-detail reveal reveal-delay-2">
+      <div class="contact-detail-label pt">Telefone</div>
+      <div class="contact-detail-label en">Phone</div>
+      <div class="contact-detail-value"><a href="tel:+351214831379">+351 214 831 379</a></div>
+    </div>
+    <div class="contact-detail reveal reveal-delay-3">
+      <div class="contact-detail-label">Email</div>
+      <div class="contact-detail-value"><a href="mailto:reservas@duchebar.com">reservas@duchebar.com</a></div>
+    </div>
+    <div class="contact-detail reveal reveal-delay-4">
+      <div class="contact-detail-label pt">Horário</div>
+      <div class="contact-detail-label en">Hours</div>
+      <div class="contact-detail-value pt">Todos os dias · 09h00 – 19h00</div>
+      <div class="contact-detail-value en">Daily · 09:00 – 19:00</div>
+    </div>
+    <a href="https://www.google.com/maps/search/Praia+da+Duquesa+Cascais" target="_blank" class="btn-directions reveal">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      <span class="pt">Como Chegar</span>
+      <span class="en">Get Directions</span>
+    </a>
+  </div>
+
+  <div class="contact-form-section">
+    <h3 class="reveal pt">Reservar Mesa</h3>
+    <h3 class="reveal en">Book a Table</h3>
+    <form onsubmit="handleReservation(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="pt">Nome</label>
+          <label class="en">Name</label>
+          <input type="text" required placeholder="João Silva">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" required placeholder="joao@email.com">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="pt">Data</label>
+          <label class="en">Date</label>
+          <input type="date" required>
+        </div>
+        <div class="form-group">
+          <label class="pt">Hora</label>
+          <label class="en">Time</label>
+          <select>
+            <option>09:00</option>
+            <option>10:00</option>
+            <option>11:00</option>
+            <option>12:00</option>
+            <option selected>13:00</option>
+            <option>14:00</option>
+            <option>15:00</option>
+            <option>16:00</option>
+            <option>17:00</option>
+            <option>18:00</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="pt">Número de Pessoas</label>
+        <label class="en">Number of Guests</label>
+        <select>
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+          <option>6</option>
+          <option>7</option>
+          <option>8+</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="pt">Notas (opcional)</label>
+        <label class="en">Notes (optional)</label>
+        <textarea rows="2" placeholder="" style="resize:none;"></textarea>
+      </div>
+      <button type="submit" class="btn-submit">
+        <span class="pt">Confirmar Reserva</span>
+        <span class="en">Confirm Reservation</span>
+      </button>
+    </form>
+  </div>
+</div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-brand">
+    <img src="https://www.duchebar.com/img/logo-400x130.webp" alt="Duche Bar">
+  </div>
+  <div class="footer-copy">
+    <p>© 2025 Duche Bar · Praia da Duquesa, Cascais</p>
+  </div>
+  <div class="footer-links">
+    <a href="mailto:reservas@duchebar.com">reservas@duchebar.com</a>
+    <a href="tel:+351214831379">+351 214 831 379</a>
+    <a href="https://www.duchebar.com/img/logo_livro_de_reclamacoes.webp" target="_blank" class="livro-link" title="Livro de Reclamações">
+      <img src="https://www.duchebar.com/img/logo_livro_de_reclamacoes.webp" alt="Livro de Reclamações">
+    </a>
+  </div>
+</footer>
+
+<script>
+  // ═══ LOADER ═══
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.getElementById('loader').classList.add('hidden');
+    }, 2200);
+  });
+
+  // Fallback
+  setTimeout(() => {
+    document.getElementById('loader').classList.add('hidden');
+  }, 3500);
+
+  // ═══ HEADER SCROLL ═══
+  const header = document.getElementById('header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+  });
+
+  // ═══ SCROLL REVEAL ═══
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ═══ LANGUAGE ═══
+  function setLang(lang, btn) {
+    document.body.classList.toggle('lang-en', lang === 'en');
+    document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    
+    // Update HTML lang
+    document.documentElement.lang = lang;
+    
+    // Update menu tabs
+    document.querySelectorAll('.menu-tab').forEach(tab => {
+      const text = tab.getAttribute('data-' + lang);
+      if (text) tab.textContent = text;
+    });
+  }
+
+  // ═══ MENU TABS ═══
+  function showMenu(id, btn) {
+    document.querySelectorAll('.menu-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.menu-tab').forEach(b => b.classList.remove('active'));
+    const panel = document.getElementById('menu-' + id);
+    if (panel) panel.classList.add('active');
+    btn.classList.add('active');
+  }
+
+  // ═══ MOOD ═══
+  function setMood(mood, btn) {
+    document.body.classList.remove('mood-sunset', 'mood-night');
+    if (mood !== 'day') document.body.classList.add('mood-' + mood);
+    document.querySelectorAll('.mood-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // ═══ FORM ═══
+  function handleReservation(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.textContent = document.body.classList.contains('lang-en') ? 'Reservation sent!' : 'Reserva enviada!';
+    btn.style.background = '#2a6fa8';
+    btn.disabled = true;
+    setTimeout(() => {
+      btn.innerHTML = '<span class="pt">Confirmar Reserva</span><span class="en">Confirm Reservation</span>';
+      btn.style.background = '';
+      btn.disabled = false;
+      e.target.reset();
+      // Reapply lang display
+      if (document.body.classList.contains('lang-en')) {
+        document.querySelectorAll('.pt').forEach(el => el.style.display = 'none');
+        document.querySelectorAll('.en').forEach(el => el.style.display = '');
+      }
+    }, 3000);
+  }
+
+  // Smooth parallax on ambient images
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    document.querySelectorAll('.ambiente-item img').forEach((img, i) => {
+      const offset = (scrolled - img.closest('.ambiente-item').offsetTop) * 0.05 * (i % 2 === 0 ? 1 : -1);
+      img.style.transform = `translateY(${offset}px) scale(1.05)`;
+    });
+  });
+</script>
+</body>
+</html>
